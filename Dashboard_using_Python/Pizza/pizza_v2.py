@@ -4,7 +4,7 @@ import plotly.express as px
 from dash.dependencies import Input, Output
 
 # Load the data
-file_path =  r'C:\Users\Wizklub\Desktop\My_Work\Dashboard_using_Python\Pizza_Chart1.xlsx'  # Ensure this is the correct path to your file
+file_path =  'Pizza_Chart1.xlsx'  # Ensure this is the correct path to your file
 df = pd.read_excel(file_path)
 
 # Ensure there are no null values in the 'Pizza Type' column
