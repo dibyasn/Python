@@ -1,12 +1,12 @@
 import tkinter as tk
-from tkinter import Label
+from tkinter import Label, Button
 import time
 
 class TransparentClock(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.title("Transparent Digital Clock")
-        self.geometry("180x50")
+        self.geometry("200x80")
 
         self.overrideredirect(True)  # Remove window decorations (title bar, close button, etc.)
         self.wm_attributes("-topmost", True)  # Keep the window on top of all other windows
@@ -14,6 +14,9 @@ class TransparentClock(tk.Toplevel):
 
         self.time_label = Label(self, font=('Helvetica', 20), fg='white', bg='black')
         self.time_label.pack(expand=True, fill='both')
+
+        self.close_button = Button(self, text="Close", command=self.close_window)
+        self.close_button.pack()
 
         self.update_clock()
 
@@ -34,6 +37,11 @@ class TransparentClock(tk.Toplevel):
         x = self.winfo_pointerx() - self.x
         y = self.winfo_pointery() - self.y
         self.geometry(f"+{x}+{y}")
+
+    def close_window(self):
+        self.destroy()  # Destroy the window
+        self.master.destroy()  # Destroy the root (main) window
+        import sys; sys.exit()  # Exit the script
 
 def create_clock():
     root = tk.Tk()
