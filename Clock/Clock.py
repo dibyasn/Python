@@ -6,7 +6,7 @@ class TransparentClock(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.title("Transparent Digital Clock")
-        self.geometry("200x80")
+        self.geometry("300x120")
 
         self.overrideredirect(True)  # Remove window decorations (title bar, close button, etc.)
         self.wm_attributes("-topmost", True)  # Keep the window on top of all other windows
@@ -18,6 +18,9 @@ class TransparentClock(tk.Toplevel):
         self.close_button = Button(self, text="Close", command=self.close_window)
         self.close_button.pack()
 
+        # Disable geometry propagation
+        self.pack_propagate(False)
+
         self.update_clock()
 
         # Bind mouse events to enable dragging
@@ -25,8 +28,13 @@ class TransparentClock(tk.Toplevel):
         self.time_label.bind("<B1-Motion>", self.do_move)
 
     def update_clock(self):
-        current_time = time.strftime('%H:%M:%S')
+        current_time = time.strftime('%d %b %y %H:%M:%S')
         self.time_label.config(text=current_time)
+        
+        # Update the size of the window to fit the content
+        self.update_idletasks()
+        self.geometry(f"{self.time_label.winfo_reqwidth()}x{self.time_label.winfo_reqheight() + self.close_button.winfo_reqheight()}")
+
         self.after(1000, self.update_clock)  # Update the clock every 1000 milliseconds (1 second)
 
     def start_move(self, event):
