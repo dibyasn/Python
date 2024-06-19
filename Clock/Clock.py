@@ -6,7 +6,7 @@ class TransparentClock(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.title("Transparent Digital Clock")
-        self.geometry("300x120")
+        self.geometry("300x150")
 
         self.overrideredirect(True)  # Remove window decorations (title bar, close button, etc.)
         self.wm_attributes("-topmost", True)  # Keep the window on top of all other windows
@@ -14,6 +14,9 @@ class TransparentClock(tk.Toplevel):
 
         self.time_label = Label(self, font=('Helvetica', 20), fg='white', bg='black')
         self.time_label.pack(expand=True, fill='both')
+
+        self.day_label = Label(self, font=('Helvetica', 20), fg='white', bg='black')
+        self.day_label.pack(expand=True, fill='both', anchor='center')
 
         self.close_button = Button(self, text="Close", command=self.close_window)
         self.close_button.pack()
@@ -26,14 +29,20 @@ class TransparentClock(tk.Toplevel):
         # Bind mouse events to enable dragging
         self.time_label.bind("<Button-1>", self.start_move)
         self.time_label.bind("<B1-Motion>", self.do_move)
+        self.day_label.bind("<Button-1>", self.start_move)
+        self.day_label.bind("<B1-Motion>", self.do_move)
+        self.close_button.bind("<Button-1>", self.start_move)
+        self.close_button.bind("<B1-Motion>", self.do_move)
 
     def update_clock(self):
         current_time = time.strftime('%d %b %y %H:%M:%S')
+        current_day = time.strftime('%A')
         self.time_label.config(text=current_time)
+        self.day_label.config(text=current_day)
         
         # Update the size of the window to fit the content
         self.update_idletasks()
-        self.geometry(f"{self.time_label.winfo_reqwidth()}x{self.time_label.winfo_reqheight() + self.close_button.winfo_reqheight()}")
+        self.geometry(f"{self.time_label.winfo_reqwidth()}x{self.time_label.winfo_reqheight() + self.day_label.winfo_reqheight() + self.close_button.winfo_reqheight()}")
 
         self.after(1000, self.update_clock)  # Update the clock every 1000 milliseconds (1 second)
 

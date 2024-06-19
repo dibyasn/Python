@@ -1,6 +1,6 @@
 # Transparent Digital Clock ⏰
 
-Welcome to the Transparent Digital Clock project! This project creates a transparent, always-on-top digital clock using Python's Tkinter library. The clock displays the current date and time and can be moved around the screen by dragging it. It also includes a "Close" button to exit the application.
+Welcome to the Transparent Digital Clock project! This project creates a transparent, always-on-top digital clock using Python's Tkinter library. The clock displays the current date, time, and day of the week, and can be moved around the screen by dragging it. It also includes a "Close" button to exit the application.
 
 ## Table of Contents
 - [Transparent Digital Clock ⏰](#transparent-digital-clock-)
@@ -25,8 +25,7 @@ This project demonstrates how to create a digital clock with a transparent backg
 - **Transparent Window:** The clock window is semi-transparent and blends seamlessly with your desktop.
 - **Always on Top:** The clock window stays on top of all other windows.
 - **Movable:** You can drag the clock to any position on the screen.
-- **Customizable Appearance:** The font and colors of the clock can be customized.
-- **Displays Date and Time:** Shows the current date and time.
+- **Displays Date, Time, and Day:** Shows the current date, time, and day of the week.
 - **Close Button:** A button to close the application and exit the script.
 
 ## 🔌 Requirements
@@ -57,7 +56,7 @@ class TransparentClock(tk.Toplevel):
     def __init__(self, master=None):
         super().__init__(master)
         self.title("Transparent Digital Clock")
-        self.geometry("300x120")
+        self.geometry("300x150")
 
         self.overrideredirect(True)  # Remove window decorations (title bar, close button, etc.)
         self.wm_attributes("-topmost", True)  # Keep the window on top of all other windows
@@ -65,6 +64,9 @@ class TransparentClock(tk.Toplevel):
 
         self.time_label = Label(self, font=('Helvetica', 20), fg='white', bg='black')
         self.time_label.pack(expand=True, fill='both')
+
+        self.day_label = Label(self, font=('Helvetica', 20), fg='white', bg='black')
+        self.day_label.pack(expand=True, fill='both', anchor='center')
 
         self.close_button = Button(self, text="Close", command=self.close_window)
         self.close_button.pack()
@@ -77,14 +79,20 @@ class TransparentClock(tk.Toplevel):
         # Bind mouse events to enable dragging
         self.time_label.bind("<Button-1>", self.start_move)
         self.time_label.bind("<B1-Motion>", self.do_move)
+        self.day_label.bind("<Button-1>", self.start_move)
+        self.day_label.bind("<B1-Motion>", self.do_move)
+        self.close_button.bind("<Button-1>", self.start_move)
+        self.close_button.bind("<B1-Motion>", self.do_move)
 
     def update_clock(self):
         current_time = time.strftime('%d %b %y %H:%M:%S')
+        current_day = time.strftime('%A')
         self.time_label.config(text=current_time)
+        self.day_label.config(text=current_day)
         
         # Update the size of the window to fit the content
         self.update_idletasks()
-        self.geometry(f"{self.time_label.winfo_reqwidth()}x{self.time_label.winfo_reqheight() + self.close_button.winfo_reqheight()}")
+        self.geometry(f"{self.time_label.winfo_reqwidth()}x{self.time_label.winfo_reqheight() + self.day_label.winfo_reqheight() + self.close_button.winfo_reqheight()}")
 
         self.after(1000, self.update_clock)  # Update the clock every 1000 milliseconds (1 second)
 
@@ -114,7 +122,7 @@ if __name__ == "__main__":
 
 ### Main Features
 - **TransparentClock Class:** This class creates a top-level window with no decorations, keeps it on top of other windows, and sets its transparency.
-- **update_clock Method:** Updates the displayed time every second and adjusts the window size to fit the content.
+- **update_clock Method:** Updates the displayed date, time, and day every second and adjusts the window size to fit the content.
 - **start_move and do_move Methods:** Allow the clock window to be dragged around the screen.
 - **close_window Method:** Closes the application and exits the script.
 
