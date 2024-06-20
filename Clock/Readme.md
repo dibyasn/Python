@@ -1,4 +1,11 @@
+
+<p align="center">
+    <img src="https://github.com/dibyasn/Python/assets/42934757/84ca980c-7076-42c3-ae34-d39779b6d1fa" alt="Digital Clock" style="width: 170px;">
+</p>
+
 # Transparent Digital Clock ⏰
+
+---
 
 Welcome to the Transparent Digital Clock project! This project creates a transparent, always-on-top digital clock using Python's Tkinter library. The clock displays the current date, time, and day of the week, and can be moved around the screen by dragging it. It also includes a "Close" button to exit the application.
 
